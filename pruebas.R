@@ -1,4 +1,4 @@
-source("var_selection.R")
+source("lib_var_selection.R")
 
 #### Example from: http://www.saedsayad.com/decision_tree.htm
 entropy::entropy(c(5,9), unit = "log2")  # real

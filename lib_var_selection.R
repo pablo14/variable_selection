@@ -6,9 +6,9 @@ library(entropy)
 #library(infotheo)
 
 
-infor_magic=function(data, col1, col2)
+infor_magic=function(input, target)
 {
-  tbl_2v=table(data[[col1]], data[[col2]])
+  tbl_2v=table(input, target)
   
   # otra manera de calcular max entropia teorica...
   en=round(entropy::entropy(tbl_2v, unit = "log2") ,3)
@@ -20,31 +20,30 @@ infor_magic=function(data, col1, col2)
   mi=round(mi.empirical(tbl_2v, unit = "log2"),3)
   #mi=mutinformation(data[[col1]],data[[col2]]) # package infotheo
   
-  ratio=round(mi/en, 3)
+  ig=information_gain(input, target)
   
-  #print(paste(en, mi,, sep=", "))
+  gr=gain_ratio(input, target)
   
-  return(c(en, mi, ratio))
+  return(c(en, mi, ig , gr))
 }
 
-#infor_magic(data=heart_disease_2, col1="has_heart_disease", col2="age")
-
-#infor_magic(data=heart_disease_2, col1="has_heart_disease", col2="max_heart_rate")
 
 
 var_rank_info <- function(data, target)
 {
   nam=colnames(data)
   nam=nam[nam!=target]
-  df_res=data.frame(var=NULL, en=NULL, mi=NULL, stringsAsFactors = F)
-  for(i in 1:length(nam))
+  
+  df_res=data.frame(var=NULL, en=NULL, mi=NULL, ig=NULL, stringsAsFactors = F)
+  
+  for(var in nam)
   {
-    r=infor_magic(data, nam[i], target)
-    df_res=rbind(df_res, data.frame(var=nam[i], en=r[1],mi=r[2]))
+    r=infor_magic(data[[var]], data[[target]])
+    df_res=rbind(df_res, data.frame(var=var, en=r[1],mi=r[2],ig=r[3], gr=r[4]))
   }
   
   df_res$var=as.character(df_res$var)
-  return(df_res %>% arrange(-mi))
+  return(df_res %>% arrange(-gr))
 }
 
 if(F)
@@ -112,7 +111,7 @@ concatenate_n_vars <- function(data, vars)
 }
 
 
-entropy_bis <- function(x, y)
+entropy_2 <- function(x, y)
 {
   tbl_x=table(x)
   probs_x=prop.table(tbl_x) # cell percentages
@@ -126,4 +125,44 @@ entropy_bis <- function(x, y)
   total_en=sum(probs_x*res_entropy)
   
   return(total_en)
+}
+
+information_gain <- function(x, y)
+{
+  tbl=table(y)
+  en_y=entropy(tbl, unit = "log2")
+  en=entropy_2(x, y)
+  info_gain=en_y-en
+  
+  return(info_gain)
+}
+
+gain_ratio <- function(input, target)
+{
+  ig=information_gain(input, target)
+  split=information_gain(input, input)
+  
+  gain_r=ig/split
+  
+  return(gain_r)
+    
+}
+
+
+rank_iterator <- function(data_cat, rank_var, target)
+{
+  ## Time to plot the cost-benefit, top-down based on rank
+  df_res_iter=data.frame(vars=NULL, en=NULL, mi=NULL, ig=NULL, gr=NULL)
+  for(i in 1:length(rank_var))
+  {
+    vars=rank_var[1:i]
+    data_cat$all_x=concatenate_n_vars(data_cat, vars)
+    
+    rx=infor_magic(data_cat$all_x, data_cat[[target]])
+    
+    #df_res_iter=rbind(df_res_iter, data.frame(paste(vars, collapse = ", "), rx[1], rx[2], rx[3]))
+    df_res_iter=rbind(df_res_iter, data.frame(vars=paste(c(1,i), collapse=","), en=rx[1], mi=rx[2], ig=rx[3], gr=rx[4]))
+  }
+  
+  return(df_res_iter)
 }
