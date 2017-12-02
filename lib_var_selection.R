@@ -137,6 +137,7 @@ information_gain <- function(x, y)
   return(info_gain)
 }
 
+
 gain_ratio <- function(input, target)
 {
   ig=information_gain(input, target)
@@ -147,6 +148,8 @@ gain_ratio <- function(input, target)
   return(gain_r)
     
 }
+
+
 
 
 rank_iterator <- function(data_cat, rank_var, target)
