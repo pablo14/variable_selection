@@ -91,14 +91,16 @@ concatenate_vars <- function(data, var1, var2)
 
 
 
-create_categ_df <- function(data)
+create_categ_df <- function(data, n_bins)
 {
-  d_cuts=df_calculate_cuts(data, n_bins = 5)
+  d_cuts=df_calculate_cuts(data = data, n_bins = n_bins)
   data_cat=df_recover_cuts(data = data, data_cuts = d_cuts, stringsAsFactors = F)
   # algunas quedaron sin convertir...
   data_cat_2=data_cat %>% mutate_all(as.character); 
   return(data_cat_2)
 }
+
+
 
 
 concatenate_n_vars <- function(data, vars)
