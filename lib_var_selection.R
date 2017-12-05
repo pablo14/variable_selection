@@ -28,6 +28,24 @@ infor_magic=function(input, target)
 }
 
 
+var_rank_sampling <- function(data, target, sample_size=0.3)
+{
+  df_gr=data.frame(i=NULL, var=NULL,  gr=NULL)
+  
+  for(i in 1:5)
+  {
+    ix=get_sample(data, percentage_tr_rows = sample_size, seed = i)
+    d_samp=data[ix, ]
+    df_info=var_rank_info(d_samp, target) %>% select(var, gr)
+    
+    df_gr=rbind(df_gr, data.frame(df_info, i=i))
+  }
+  
+  
+  stats=group_by(df_gr, var) %>% summarise(variation_coef=sd(gr)/mean(gr)) %>% arrange(-variation_coef);stats
+  
+}
+
 
 var_rank_info <- function(data, target)
 {

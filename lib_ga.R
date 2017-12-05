@@ -17,9 +17,9 @@ fitness_gain_ratio_aux <- function(vars, data, target_var, tot_vars, p_sampling)
   
   q_vars=sum(vars)
   
-  q_var_segment=selec_vars_segment(q_vars, tot_vars)
+  #q_var_segment=selec_vars_segment(q_vars, tot_vars)
   
-  round(gr/q_var_segment,4)
+  round(gr/q_vars,4)
 }
 
 
