@@ -1,7 +1,7 @@
 source("lib_var_selection.R")
 
 ## Clean categorical and character vector
-heart_disease_cat=create_categ_df(heart_disease);df_status(heart_disease_cat)
+heart_disease_cat=convert_df_to_char(heart_disease);df_status(heart_disease_cat)
 
 ## Ranking all vars
 rank=var_rank_info(data = heart_disease_cat, target = "has_heart_disease")

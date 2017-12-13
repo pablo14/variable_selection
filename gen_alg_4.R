@@ -4,7 +4,7 @@ source("lib_var_selection.R")
 
 
 #### Example hear_disease
-heart_disease_cat=create_categ_df(heart_disease)
+heart_disease_cat=convert_df_to_char(heart_disease)
 
 # calculo columna target
 target="has_heart_disease"

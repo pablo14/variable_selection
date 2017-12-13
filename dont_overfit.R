@@ -12,8 +12,8 @@ data_overfit=read.csv("overfitting.csv", header = T,sep = ",", stringsAsFactors 
 data=filter(data_overfit, train==1) %>% select(-Target_Leaderboard, -Target_Evaluate, -case_id, -train) %>% mutate_if(is.character, as.numeric)
 data_test=filter(data_overfit, train==0)
 
-d_cat=create_categ_df(data = data, n_bins = 10);
-d_cat_test=create_categ_df(data = data_test, n_bins = 10);
+d_cat=convert_df_to_char(data = data, n_bins = 10);
+d_cat_test=convert_df_to_char(data = data_test, n_bins = 10);
 target="Target_Practice"
 
 ## Rank best vars based on IG
@@ -29,7 +29,7 @@ d_cat_in=d_cat %>% select(-one_of(target))
 d_cat_in_with_target=d_cat_in
 d_cat_in_with_target[[target]]=target_var
 
-variation_coef_rank=var_rank_sampling(data = d_cat_in_with_target, target = target)
+variation_coef_rank=var_rank_variation_coef(data = d_cat_in_with_target, target = target)
 d_cat_in=d_cat_in %>% select(-one_of(variation_coef_rank$var[1:100]))
 
 ############################

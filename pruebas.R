@@ -7,7 +7,7 @@ entropy::entropy(c(14,0), unit = "log2") # max order
 
 
 #### Example hear_disease
-heart_disease_cat=create_categ_df(heart_disease);df_status(heart_disease_cat)
+heart_disease_cat=convert_df_to_char(heart_disease);df_status(heart_disease_cat)
 
 ## Entropy between two vars - case 1
 tbl_2v=table(heart_disease_cat$has_heart_disease, heart_disease_cat$max_heart_rate)

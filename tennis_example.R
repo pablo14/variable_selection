@@ -1,5 +1,9 @@
+library(funModeling)
+
 #### Example from: http://www.saedsayad.com/decision_tree.htm
 d_tennis=read.csv(file="tennis.csv", header = T, stringsAsFactors = F)
+# creating the id variable
+d_tennis$id=1:nrow(d_tennis)
 
 en_tar=entropy(table(d_tennis$jugar_tenis), unit = "log2")
 
@@ -15,9 +19,6 @@ information_gain(d_tennis$ventoso, d_tennis$jugar_tenis)
 
 
 ## Testing ID variable
-# creating the id variable
-d_tennis$id=1:nrow(d_tennis)
-
 # entropy between id and target is 0, perfect correspondence, "no chaos based on that var"
 entropy_2(d_tennis$id, d_tennis$jugar_tenis)
 

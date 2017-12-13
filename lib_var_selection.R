@@ -28,7 +28,7 @@ infor_magic=function(input, target)
 }
 
 
-var_rank_sampling <- function(data, target, sample_size=0.3)
+var_rank_variation_coef <- function(data, target, sample_size=0.3)
 {
   df_gr=data.frame(i=NULL, var=NULL,  gr=NULL)
   
@@ -66,8 +66,8 @@ var_rank_info <- function(data, target)
 
 if(F)
 {
-  d_cuts=df_calculate_cuts(heart_disease, n_bins = 5)
-  heart_disease_cat=df_recover_cuts(data = heart_disease, data_cuts = d_cuts, stringsAsFactors = F)
+  d_cuts=discretize_get_bins(heart_disease, n_bins = 5)
+  heart_disease_cat=discretize_df(data = heart_disease, data_bins = d_cuts, stringsAsFactors = F)
   
   #df_status(heart_disease_cat)
   df_rank=var_rank_info(heart_disease_cat, target="has_heart_disease") 
@@ -109,10 +109,10 @@ concatenate_vars <- function(data, var1, var2)
 
 
 
-create_categ_df <- function(data, n_bins)
+convert_df_to_char <- function(data, n_bins)
 {
-  d_cuts=df_calculate_cuts(data = data, n_bins = n_bins)
-  data_cat=df_recover_cuts(data = data, data_cuts = d_cuts, stringsAsFactors = F)
+  d_cuts=discretize_get_bins(data = data, n_bins = n_bins)
+  data_cat=discretize_df(data = data, data_bins = d_cuts, stringsAsFactors = F)
   # algunas quedaron sin convertir...
   data_cat_2=data_cat %>% mutate_all(as.character); 
   return(data_cat_2)

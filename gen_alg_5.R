@@ -6,7 +6,7 @@ source("gen_sample_data.R")
 
 # max cant d genes= max 
 data=training
-d_cat=create_categ_df(data = data, n_bins = 5);
+d_cat=convert_df_to_char(data = data, n_bins = 5);
 target="Class"
 
 ## Rank best vars based on IG
@@ -57,6 +57,6 @@ vars_noise=select(d_cat_in, contains("Noise")) %>% colnames(.)
 fit_model_3=create_model_rf_select_vars(data_tr_sample = d_cat_in, target = target_var,best_vars =vars_noise);fit_model_3
 
 
-## Cheuing all
+## Checking all
 resamp=resamples(list(ga = fit_model_1, no_noise = fit_model_2,noise=fit_model_3));bwplot(resamp, layout = c(3, 1))
 
