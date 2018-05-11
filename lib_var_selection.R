@@ -131,7 +131,7 @@ concatenate_n_vars <- function(data, vars)
 }
 
 
-entropy_2 <- function(x, y)
+entropy_2 <- function(input, target)
 {
   tbl_x=table(x)
   probs_x=prop.table(tbl_x) # cell percentages
@@ -139,6 +139,8 @@ entropy_2 <- function(x, y)
   tbl=table(x, y)  
   
   df_tbl=as.data.frame.matrix(tbl)
+  
+  # not an elegant solution...
   res_entropy=data.frame(t(df_tbl)) %>% mutate_all(funs(entropy(., unit = "log2"))) %>% head(.,1)
   
   # final

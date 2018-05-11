@@ -8,7 +8,9 @@ d_tennis$id=1:nrow(d_tennis)
 en_tar=entropy(table(d_tennis$jugar_tenis), unit = "log2")
 
 tbl_2v=t(table(d_tennis$jugar_tenis, d_tennis$clima))
-H12 = entropy(tbl_2v, unit = "log2");H12; # default= method="ML",
+H12 = entropy(tbl_2v, unit = "log2",method = );H12; # default= method="ML",
+entropy_2(d_tennis$jugar_tenis, d_tennis$clima)
+entropy_2( d_tennis$clima, d_tennis$jugar_tenis)
 
 
 ## Information Gain IUPII
